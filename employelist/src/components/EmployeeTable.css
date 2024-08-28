@@ -1,0 +1,89 @@
+.employee-management {
+    width: 80%;
+    margin: auto;
+    font-family: Arial, sans-serif;
+  }
+  
+  h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .search-input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .filter-buttons {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+  }
+  
+  .filter-buttons button,
+  .sort-button,
+  .edit-button,
+  .delete-button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: #fff;
+    transition: background-color 0.3s ease;
+  }
+  
+  .filter-buttons button:hover,
+  .sort-button:hover,
+  .edit-button:hover,
+  .delete-button:hover {
+    background-color: #0056b3;
+  }
+  
+  .edit-button {
+    background-color: #28a745;
+  }
+  
+  .edit-button:hover {
+    background-color: #218838;
+  }
+  
+  .delete-button {
+    background-color: #dc3545;
+  }
+  
+  .delete-button:hover {
+    background-color: #c82333;
+  }
+  
+  .employee-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+  }
+  
+  th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+  }
+  
+  td input[type="text"],
+  td input[type="email"],
+  td input[type="number"] {
+    width: 90%;
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
