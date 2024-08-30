@@ -1,142 +1,108 @@
-import React, { useState, useEffect } from 'react';
-import useSearch from '../hooks/useSearch';
-import './EmployeeTable.css'; // Optional: Create CSS for styling
+import { Link, useNavigate } from "react-router-dom";
+import "./EmployeeTable.css";
+import useSearch from "../hooks/useSearch";
+import React, { useEffect, useState } from "react";
 
 const EmployeeTable = () => {
-  const [employees, setEmployees] = useState([]);
-  const [sortOrder, setSortOrder] = useState('asc');
-  const [filterGender, setFilterGender] = useState('');
-  const [searchTerm, setSearchTerm] = useState('');
-  const [editingRow, setEditingRow] = useState(null); // State to track which row is being edited
+  const [employee, setEmployee] = useState([]); // Fixed typo in state
+  const [filteredEmployee, setFilteredEmployee] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sorting, setSorting] = useState("");
+  const [selectedGender, setSelectedGender] = useState("");
+  const navigate = useNavigate(); // Correctly initializing useNavigate
+
+  let url =
+    "https://file.notion.so/f/f/3849cbaa-5010-40df-a27a-f34a3a69c598/ce7879ce-8dee-462f-9a6f-52a31ea104e5/MOCK_DATA.json?table=block&id=5766873f-14ad-4eba-9e97-7c51337fa118&spaceId=3849cbaa-5010-40df-a27a-f34a3a69c598&expirationTimestamp=1725004800000&signature=7kROS-fsLFKxuCF_ObYvaa-wmffcl-RzC30v2EDHq0s&downloadName=MOCK_DATA.json";
 
   useEffect(() => {
-    // Fetch data from the JSON file (You can put this in /public directory)
-    fetch('https://file.notion.so/f/f/3849cbaa-5010-40df-a27a-f34a3a69c598/ce7879ce-8dee-462f-9a6f-52a31ea104e5/MOCK_DATA.json?table=block&id=5766873f-14ad-4eba-9e97-7c51337fa118&spaceId=3849cbaa-5010-40df-a27a-f34a3a69c598&expirationTimestamp=1724940000000&signature=fVeb8qT8SqXtlPw6geGx_6wPW44Z3X0BgRSGwCZjGAs&downloadName=MOCK_DATA.json')
-      .then((response) => response.json())
-      .then((data) => setEmployees(data));
+    fetch(url)
+      .then((res) => res.json())
+      .then((data) => {
+        setEmployee(data);
+        setFilteredEmployee(data);
+      });
   }, []);
 
-  // Sorting by salary
-  const handleSort = () => {
-    const sortedEmployees = [...employees].sort((a, b) => {
-      return sortOrder === 'asc'
-        ? a.salary - b.salary
-        : b.salary - a.salary;
-    });
-    setEmployees(sortedEmployees);
-    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
-  };
-
-  // Filtering by gender
-  const handleFilter = (gender) => {
-    setFilterGender(gender);
-  };
-
-  // Search using custom hook
-  const filteredEmployees = useSearch(employees, searchTerm).filter(
-    (employee) =>
-      !filterGender || employee.gender.toLowerCase() === filterGender.toLowerCase()
-  );
-
-  // Edit employee details
-  const handleEdit = (id, key, value) => {
-    const updatedEmployees = employees.map((employee) =>
-      employee.id === id ? { ...employee, [key]: value } : employee
-    );
-    setEmployees(updatedEmployees);
-  };
-
-  // Delete employee
   const handleDelete = (id) => {
-    const updatedEmployees = employees.filter((employee) => employee.id !== id);
-    setEmployees(updatedEmployees);
+    const updatedEmployees = employee.filter(
+      (employees) => employees.id !== id
+    );
+    setEmployee(updatedEmployees);
+    setFilteredEmployee(updatedEmployees); // Update filtered data
   };
-  const toggleEditMode = (id) => {
-    setEditingRow(editingRow === id ? null : id);
-  };
+
+  useEffect(() => {
+    let filteredData = employee;
+    if (selectedGender) {
+      filteredData = filteredData.filter(
+        (item) => item.gender.toLowerCase() === selectedGender.toLowerCase()
+      );
+    }
+   if (searchTerm) {
+      filteredData = filteredData.filter((item) =>
+        item.first_name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+
+    if (sorting === "highToLow") {
+      filteredData.sort((a, b) => a.salary - b.salary);
+    } else if (sorting === "lowToHigh") {
+      filteredData.sort((a, b) => b.salary - a.salary);
+    }
+    setFilteredEmployee(filteredData);
+  }, [selectedGender, sorting, employee, searchTerm]);
 
   return (
     <div>
-      <h1>Employee Management System</h1>
+      <h1>Employee Management</h1>
+      <div className="filter-container">
+        <input
+          type="text"
+          placeholder="Search by name"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+        <select
+          value={selectedGender}
+          onChange={(e) => setSelectedGender(e.target.value)}
+        >
+          <option value="">All</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+          <option value="Non-binary">Non-binary</option>
+        </select>
 
-      {/* Search input */}
-      <input
-        type="text"
-        placeholder="Search by name..."
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-      />
+        <select value={sorting} onChange={(e) => setSorting(e.target.value)}>
+          <option value="">Sort by Salary</option>
+          <option value="highToLow">High to Low</option>
+          <option value="lowToHigh">Low to High</option>
+        </select>
+      </div>
 
-      {/* Filter buttons */}
-      <button onClick={() => handleFilter('')}>All</button>
-      <button onClick={() => handleFilter('Male')}>Male</button>
-      <button onClick={() => handleFilter('Female')}>Female</button>
-
-      {/* Sort button */}
-      <button onClick={handleSort}>
-        Sort by Salary ({sortOrder === 'asc' ? 'Ascending' : 'Descending'})
-      </button>
-
-      {/* Employee table */}
       <table>
         <thead>
           <tr>
-            <th>ID</th>
+            <th>Id</th>
             <th>Name</th>
             <th>Gender</th>
             <th>Email</th>
             <th>Salary</th>
-            <th>Actions</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
-          {filteredEmployees.map((employee) => (
-            <tr key={employee.id}>
-              <td>{employee.id}</td>
+          {filteredEmployee.map((item) => (
+            <tr key={item.id}>
+              <td>{item.id}</td>
+              <td>{item.first_name}</td>
+              <td>{item.gender}</td>
+              <td>{item.email}</td>
+              <td>{item.salary}</td>
               <td>
-              <input
-                  type="text"
-                  value={employee.first_name}
-                  onChange={(e) => handleEdit(employee.id, 'name', e.target.value)}
-                />
-                
-                 {/* {employee.first_name} */}
-                 
-               
-              </td>
-              <td>
-                <input
-                  type="text"
-                  value={employee.gender}
-                  onChange={(e) => handleEdit(employee.id, 'gender', e.target.value)}
-                />
-              </td>
-              <td>
-                <input
-                  type="email"
-                  value={employee.email}
-                  onChange={(e) => handleEdit(employee.id, 'email', e.target.value)}
-                />
-              </td>
-              {/* <td>
-                <input
-                  type="text"
-                  value={employee.job_title}
-                  onChange={(e) => handleEdit(employee.id, 'job_title', e.target.value)}
-                />
-              </td> */}
-              <td>
-                <input
-                  type="number"
-                  value={employee.salary}
-                  onChange={(e) => handleEdit(employee.id, 'salary', e.target.value)}
-                />
-              </td>
-              <td>
-              <button onClick={() => toggleEditMode(employee.id)} className="edit-button">
-                  {editingRow === employee.id ? 'Save' : 'Edit'}
-                </button>
-                <button onClick={() => handleDelete(employee.id)}>Delete</button>
+                {/* Fixing navigate function call */}
+                {/* <Link to={`/update/${item.id}`} className="edit-button">Edit</Link> */}
+
+                <button onClick={() => handleDelete(item.id)}>Delete</button>
               </td>
             </tr>
           ))}

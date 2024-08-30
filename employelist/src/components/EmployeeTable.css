@@ -1,89 +1,111 @@
-.employee-management {
-    width: 80%;
-    margin: auto;
-    font-family: Arial, sans-serif;
-  }
-  
-  h1 {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #333;
-  }
-  
-  .search-input {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 20px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-  }
-  
-  .filter-buttons {
-    margin-bottom: 20px;
-    display: flex;
-    gap: 10px;
-  }
-  
-  .filter-buttons button,
-  .sort-button,
-  .edit-button,
-  .delete-button {
-    padding: 10px 15px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    background-color: #007bff;
-    color: #fff;
-    transition: background-color 0.3s ease;
-  }
-  
-  .filter-buttons button:hover,
-  .sort-button:hover,
-  .edit-button:hover,
-  .delete-button:hover {
-    background-color: #0056b3;
-  }
-  
-  .edit-button {
-    background-color: #28a745;
-  }
-  
-  .edit-button:hover {
-    background-color: #218838;
-  }
-  
-  .delete-button {
-    background-color: #dc3545;
-  }
-  
-  .delete-button:hover {
-    background-color: #c82333;
-  }
-  
-  .employee-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  th, td {
-    border: 1px solid #ddd;
-    padding: 10px;
-    text-align: left;
-  }
-  
-  th {
-    background-color: #f4f4f4;
-    font-weight: bold;
-  }
-  
-  td input[type="text"],
-  td input[type="email"],
-  td input[type="number"] {
-    width: 90%;
-    padding: 5px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-  }
-  
+
+table {
+  border-collapse: collapse;
+  border: 2px solid rgb(140 140 140);
+  font-family: sans-serif;
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  width: 80%;
+}
+
+caption {
+  caption-side: bottom;
+  padding: 10px;
+  font-weight: bold;
+}
+
+thead,
+tfoot {
+  background-color: rgb(228 240 245);
+}
+
+th,
+td {
+  border: 1px solid rgb(160 160 160);
+  padding: 8px 10px;
+}
+
+td:last-of-type {
+  text-align: center;
+}
+
+tbody > tr:nth-of-type(even) {
+  background-color: rgb(237 238 242);
+}
+
+tfoot th {
+  text-align: right;
+}
+
+tfoot td {
+  font-weight: bold;
+}
+button{
+  background-color: rgb(64, 224, 64);
+  color: white;
+  margin: 5px;
+  border: none;
+  padding: 10px;
+  color: white;
+  border-radius: 5px;
+  /* font-size: px; */
+}
+select {
+  font-size: 0.9rem;
+  padding: 2px 5px;
+}
+/* Container for the search and filter elements */
+.filter-container {
+display: flex; /* Align items in a row */
+gap: 15px; /* Space between elements */
+align-items: center; /* Vertically center the items */
+margin-bottom: 20px; /* Space below the filter bar */
+padding: 10px; /* Padding around the container */
+background-color: #f8f8f8; /* Light background color */
+border-radius: 8px; /* Rounded corners */
+box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+/* Style for the input field */
+.filter-container input[type="text"] {
+padding: 8px 12px; /* Space inside the input */
+border: 1px solid #ddd; /* Light border */
+border-radius: 5px; /* Rounded corners */
+outline: none; /* Remove outline on focus */
+flex: 1; /* Allow the input to grow */
+transition: border-color 0.3s ease; /* Smooth transition for border color */
+}
+
+/* Change border color on focus */
+.filter-container input[type="text"]:focus {
+border-color: #007bff; /* Focus border color */
+}
+
+/* Style for the select dropdowns */
+.filter-container select {
+padding: 8px 12px; /* Space inside the select */
+border: 1px solid #ddd; /* Light border */
+border-radius: 5px; /* Rounded corners */
+outline: none; /* Remove outline on focus */
+background-color: #fff; /* White background */
+cursor: pointer; /* Pointer cursor */
+transition: border-color 0.3s ease; /* Smooth transition for border color */
+}
+
+/* Change border color on focus for selects */
+.filter-container select:focus {
+border-color: #007bff; /* Focus border color */
+}
+/* Style for the link as a button */
+.edit-button {
+display: inline-block; /* Makes the link behave like a button */
+padding: 8px 16px; /* Space inside the button */
+background-color: #007bff; /* Primary button color */
+color: #fff; /* Text color */
+border: none; /* Remove default border */
+border-radius: 5px; /* Rounded corners */
+text-decoration: none; /* Remove underline from link */
+font-size: 14px; /* Font size */
+cursor: pointer; /* Pointer cursor on hover */
+transition: background-color 0.3s ease; /* Smooth transition for background color */
+}
